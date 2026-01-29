@@ -1,17 +1,11 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import HomeScreen from "@screens/HomeScreen";
-import CounterScreen from "@screens/CounterScreen";
-import FutureScreen from "@screens/FutureScreen";
-import ExpensesScreen from "@screens/ExpensesScreen";
-import StatsScreen from "@screens/StatsScreen";
+import TabNavigator from './TabNavigator';
+import CounterScreen from '@screens/CounterScreen';
 
 export type RootStackParamList = {
-  Home: undefined;
+  Tabs: undefined;
   Counter: undefined;
-  Future: undefined;
-  Expenses: undefined;
-  Stats: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -19,12 +13,17 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Counter" component={CounterScreen} />
-        <Stack.Screen name="Future" component={FutureScreen} />
-        <Stack.Screen name="Expenses" component={ExpensesScreen} />
-        <Stack.Screen name="Stats" component={StatsScreen} />
+      <Stack.Navigator initialRouteName="Tabs">
+        <Stack.Screen
+          name="Tabs"
+          component={TabNavigator}
+          options={{ headerShown: false }} // TabNavigator сам показывает header
+        />
+        <Stack.Screen
+          name="Counter"
+          component={CounterScreen}
+          options={{ title: 'Counter' }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

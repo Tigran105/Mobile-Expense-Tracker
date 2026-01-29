@@ -1,12 +1,33 @@
 import { useState } from 'react';
-import { View, TextInput, Alert } from 'react-native';
+import { View, TextInput, Pressable, Text, Alert } from 'react-native';
 import styled from 'styled-components/native';
-import Button from './Button';
 import { useStore } from '@store/store';
 
-const Container = styled(View)`
+const FormContainer = styled(View)`
+    width: 100%;
+    margin-bottom: 16px;
+`;
+
+const Input = styled(TextInput)`
   width: 100%;
-  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 8px;
+  font-size: 16px;
+`;
+
+const AddButton = styled(Pressable)`
+  padding: 12px;
+  background-color: #6200ee;
+  border-radius: 8px;
+  align-items: center;
+`;
+
+const ButtonText = styled(Text)`
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
 `;
 
 export default function AddExpenseForm() {
@@ -15,45 +36,33 @@ export default function AddExpenseForm() {
   const addExpense = useStore((state) => state.addExpense);
 
   const handleAdd = () => {
-    const num = parseFloat(amount);
-    if (!title || isNaN(num)) {
+    const parsedAmount = parseFloat(amount);
+    if (!title || isNaN(parsedAmount)) {
       Alert.alert('Error', 'Please enter valid title and amount');
       return;
     }
 
-    addExpense({ title, amount: num });
+    addExpense({ title, amount: parsedAmount });
     setTitle('');
     setAmount('');
   };
 
   return (
-    <Container>
-      <TextInput
+    <FormContainer>
+      <Input
         placeholder="Expense title"
         value={title}
         onChangeText={setTitle}
-        style={{
-          borderWidth: 1,
-          borderColor: '#ccc',
-          borderRadius: 6,
-          padding: 10,
-          marginBottom: 8,
-        }}
       />
-      <TextInput
+      <Input
         placeholder="Amount"
         value={amount}
         onChangeText={setAmount}
         keyboardType="numeric"
-        style={{
-          borderWidth: 1,
-          borderColor: '#ccc',
-          borderRadius: 6,
-          padding: 10,
-          marginBottom: 8,
-        }}
       />
-      <Button title="Add Expense" onPress={handleAdd} />
-    </Container>
+      <AddButton onPress={handleAdd}>
+        <ButtonText>Add Expense</ButtonText>
+      </AddButton>
+    </FormContainer>
   );
 }

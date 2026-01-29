@@ -1,23 +1,19 @@
 import { View, FlatList, Text } from 'react-native';
 import styled from 'styled-components/native';
-import { useStore } from '@store/store';
 import AddExpenseForm from '@components/AddExpenseForm';
-import {useEffect} from "react";
+import { useStore } from '@store/store';
 
 const Container = styled(View)`
     flex: 1;
     padding: 16px;
-    background-color: #fff;
+    background-color: #f0f0f0;
 `;
 
-const ExpenseItem = styled(View)`
+const ExpenseCard = styled(View)`
+    background-color: #fff;
     padding: 12px;
-    margin-vertical: 4px;
-    background-color: #f9f9f9;
+    margin-bottom: 8px;
     border-radius: 8px;
-    shadow-color: #000;
-    shadow-opacity: 0.1;
-    shadow-radius: 4px;
     elevation: 2;
 `;
 
@@ -26,31 +22,29 @@ const ExpenseText = styled(Text)`
     color: #333;
 `;
 
-const Separator = styled(View)`
-  height: 8px;
-`;
-
 export default function ExpensesScreen() {
   const expenses = useStore((state) => state.expenses);
   const loadExpenses = useStore((state) => state.loadExpenses);
 
-  useEffect(() => {
+  // Загружаем сохраненные расходы при монтировании
+  useStore((state) => {
     loadExpenses();
-  }, []);
+  });
 
   return (
     <Container>
+      {/* Форма добавления */}
       <AddExpenseForm />
 
+      {/* Список расходов */}
       <FlatList
         data={expenses}
-        keyExtractor={(_, index) => index.toString()}
+        keyExtractor={(_, idx) => idx.toString()}
         renderItem={({ item }) => (
-          <ExpenseItem>
+          <ExpenseCard>
             <ExpenseText>{item.title}: ${item.amount.toFixed(2)}</ExpenseText>
-          </ExpenseItem>
+          </ExpenseCard>
         )}
-        ItemSeparatorComponent={() => <Separator />}
         ListEmptyComponent={<ExpenseText>No expenses yet</ExpenseText>}
       />
     </Container>

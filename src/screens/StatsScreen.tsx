@@ -5,34 +5,35 @@ import { useStore } from '@store/store';
 
 const Container = styled(View)`
     flex: 1;
-    background-color: #fff;
     padding: 16px;
+    background-color: #f0f0f0;
 `;
 
 const TotalCard = styled(View)`
-    padding: 16px;
     background-color: #6200ee;
+    padding: 20px;
     border-radius: 12px;
     margin-bottom: 16px;
     align-items: center;
 `;
 
 const TotalText = styled(Text)`
+    color: white;
     font-size: 24px;
     font-weight: bold;
-    color: #fff;
 `;
 
-const ExpenseItem = styled(View)`
-  padding: 12px;
-  background-color: #f3f3f3;
-  border-radius: 8px;
-  margin-bottom: 8px;
+const ExpenseCard = styled(View)`
+    background-color: #fff;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    elevation: 2;
 `;
 
 const ExpenseText = styled(Text)`
-  font-size: 16px;
-  color: #333;
+    font-size: 16px;
+    color: #333;
 `;
 
 export default function StatsScreen() {
@@ -54,9 +55,9 @@ export default function StatsScreen() {
         data={expenses}
         keyExtractor={(_, idx) => idx.toString()}
         renderItem={({ item }) => (
-          <ExpenseItem>
+          <ExpenseCard>
             <ExpenseText>{item.title}: ${item.amount.toFixed(2)}</ExpenseText>
-          </ExpenseItem>
+          </ExpenseCard>
         )}
         ListEmptyComponent={<ExpenseText>No expenses yet</ExpenseText>}
       />
