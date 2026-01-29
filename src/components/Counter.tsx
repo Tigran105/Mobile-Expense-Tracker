@@ -3,13 +3,13 @@ import Button from './Button';
 import { Text, View } from 'react-native';
 
 const Container = styled(View)`
-  align-items: center;
+    align-items: center;
 `;
 
 const CountText = styled(Text)`
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
 `;
 
 type Props = {

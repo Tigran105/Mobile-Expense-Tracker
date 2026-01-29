@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import { Pressable, Text } from 'react-native';
 
 const StyledButton = styled(Pressable)`
-    background-color: #2563eb; /* blue-500 */
+    background-color: #2563eb;
     padding: 12px;
     border-radius: 6px;
     margin-vertical: 8px;
