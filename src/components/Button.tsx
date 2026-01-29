@@ -1,18 +1,27 @@
+import styled from 'styled-components/native';
 import { Pressable, Text } from 'react-native';
+
+const StyledButton = styled(Pressable)`
+    background-color: #2563eb; /* blue-500 */
+    padding: 12px;
+    border-radius: 6px;
+    margin-vertical: 8px;
+`;
+
+const ButtonText = styled(Text)`
+    color: white;
+    text-align: center;
+`;
 
 type Props = {
   title: string;
   onPress: () => void;
-  color?: string;
 };
 
-export default function Button({ title, onPress, color = 'blue' }: Props) {
+export default function Button({ title, onPress }: Props) {
   return (
-    <Pressable
-      onPress={onPress}
-      style={{ padding: 10, backgroundColor: color, borderRadius: 5, marginVertical: 5 }}
-    >
-      <Text style={{ color: 'white', textAlign: 'center' }}>{title}</Text>
-    </Pressable>
+    <StyledButton onPress={onPress}>
+      <ButtonText>{title}</ButtonText>
+    </StyledButton>
   );
 }

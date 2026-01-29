@@ -1,5 +1,16 @@
-import { View, Text } from 'react-native';
+import styled from 'styled-components/native';
 import Button from './Button';
+import { Text, View } from 'react-native';
+
+const Container = styled(View)`
+  align-items: center;
+`;
+
+const CountText = styled(Text)`
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
 
 type Props = {
   count: number;
@@ -9,10 +20,10 @@ type Props = {
 
 export default function Counter({ count, onIncrement, onDecrement }: Props) {
   return (
-    <View style={{ alignItems: 'center' }}>
-      <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 10 }}>Count: {count}</Text>
-      <Button title="Increment" onPress={onIncrement} color="green" />
-      <Button title="Decrement" onPress={onDecrement} color="red" />
-    </View>
+    <Container>
+      <CountText>{count}</CountText>
+      <Button title="Increment" onPress={onIncrement} />
+      <Button title="Decrement" onPress={onDecrement} />
+    </Container>
   );
 }

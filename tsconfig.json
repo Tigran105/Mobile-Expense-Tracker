@@ -9,10 +9,22 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@store/*": ["src/store/*"],
-      "@screens/*": ["src/screens/*"],
-      "@components/*": ["src/components/*"],
-      "@utils/*": ["src/utils/*"]
+      "@navigation/*": [
+        "src/navigation/*"
+      ],
+      "@store/*": [
+        "src/store/*"
+      ],
+      "@screens/*": [
+        "src/screens/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ]
     }
-  }
+  },
+  "extends": "expo/tsconfig.base"
 }
