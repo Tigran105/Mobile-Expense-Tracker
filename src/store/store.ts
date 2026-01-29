@@ -9,15 +9,18 @@ type Expense = {
 type State = {
   count: number;
   expenses: Expense[];
+  total: number;
   increment: () => void;
   decrement: () => void;
   addExpense: (expense: Expense) => void;
-  loadExpenses: () => void; // новый метод
+  loadExpenses: () => void;
 };
 
 export const useStore = create<State>((set, get) => ({
   count: 0,
   expenses: [],
+  total: 0,
+
   increment: () => {
     set((state) => {
       const newCount = state.count + 1;
@@ -25,6 +28,7 @@ export const useStore = create<State>((set, get) => ({
       return { count: newCount };
     });
   },
+
   decrement: () => {
     set((state) => {
       const newCount = state.count - 1;
@@ -32,24 +36,31 @@ export const useStore = create<State>((set, get) => ({
       return { count: newCount };
     });
   },
+
   addExpense: (expense) => {
     set((state) => {
       const newExpenses = [...state.expenses, expense];
+      const newTotal = newExpenses.reduce((acc, e) => acc + e.amount, 0);
+
+      // Сохраняем в AsyncStorage
       saveItem('expenses', JSON.stringify(newExpenses));
-      return { expenses: newExpenses };
+      saveItem('total', newTotal.toString());
+
+      return { expenses: newExpenses, total: newTotal };
     });
   },
+
   loadExpenses: async () => {
-    const data = await getItem('expenses');
-    if (data) {
-      try {
-        const parsed = JSON.parse(data);
-        if (Array.isArray(parsed)) {
-          set({ expenses: parsed });
-        }
-      } catch (e) {
-        console.error('Failed to parse expenses from storage', e);
-      }
+    try {
+      const expensesData = await getItem('expenses');
+      const totalData = await getItem('total');
+
+      const parsedExpenses: Expense[] = expensesData ? JSON.parse(expensesData) : [];
+      const parsedTotal: number = totalData ? parseFloat(totalData) : 0;
+
+      set({ expenses: parsedExpenses, total: parsedTotal });
+    } catch (e) {
+      console.error('Failed to load expenses or total', e);
     }
   },
 }));

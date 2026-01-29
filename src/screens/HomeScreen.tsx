@@ -27,21 +27,32 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', padding: 16 }}>
+      {/* Counter Component */}
       <Counter count={count} onIncrement={increment} onDecrement={decrement} />
 
+      {/* Navigate to FutureScreen */}
       <Pressable
         onPress={() => navigation.navigate('Future')}
-        style={{ padding: 10, backgroundColor: 'gray', borderRadius: 5, marginTop: 20 }}
+        style={{ padding: 10, backgroundColor: 'gray', borderRadius: 5, marginTop: 20, width: '80%', alignItems: 'center' }}
       >
         <Text style={{ color: 'white' }}>Go to Future Screen</Text>
       </Pressable>
 
+      {/* Navigate to ExpensesScreen */}
       <Pressable
         onPress={() => navigation.navigate('Expenses')}
-        style={{ padding: 10, backgroundColor: 'green', borderRadius: 5, marginTop: 20 }}
+        style={{ padding: 10, backgroundColor: 'green', borderRadius: 5, marginTop: 20, width: '80%', alignItems: 'center' }}
       >
         <Text style={{ color: 'white' }}>Go to Expenses</Text>
+      </Pressable>
+
+      {/* Navigate to StatsScreen */}
+      <Pressable
+        onPress={() => navigation.navigate('Stats')}
+        style={{ padding: 10, backgroundColor: 'purple', borderRadius: 5, marginTop: 20, width: '80%', alignItems: 'center' }}
+      >
+        <Text style={{ color: 'white' }}>Go to Stats</Text>
       </Pressable>
     </View>
   );
