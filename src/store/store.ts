@@ -12,9 +12,10 @@ type State = {
   increment: () => void;
   decrement: () => void;
   addExpense: (expense: Expense) => void;
+  loadExpenses: () => void; // новый метод
 };
 
-export const useStore = create<State>((set) => ({
+export const useStore = create<State>((set, get) => ({
   count: 0,
   expenses: [],
   increment: () => {
@@ -37,5 +38,18 @@ export const useStore = create<State>((set) => ({
       saveItem('expenses', JSON.stringify(newExpenses));
       return { expenses: newExpenses };
     });
+  },
+  loadExpenses: async () => {
+    const data = await getItem('expenses');
+    if (data) {
+      try {
+        const parsed = JSON.parse(data);
+        if (Array.isArray(parsed)) {
+          set({ expenses: parsed });
+        }
+      } catch (e) {
+        console.error('Failed to parse expenses from storage', e);
+      }
+    }
   },
 }));

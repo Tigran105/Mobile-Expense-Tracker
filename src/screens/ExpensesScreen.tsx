@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import styled from 'styled-components/native';
 import { useStore } from '@store/store';
@@ -23,6 +24,11 @@ const ExpenseText = styled(Text)`
 
 export default function ExpensesScreen() {
   const expenses = useStore((state) => state.expenses);
+  const loadExpenses = useStore((state) => state.loadExpenses);
+
+  useEffect(() => {
+    loadExpenses();
+  }, []);
 
   return (
     <Container>
