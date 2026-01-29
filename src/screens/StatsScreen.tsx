@@ -1,26 +1,38 @@
 import { useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import { useStore } from '@store/store';
 
 const Container = styled(View)`
     flex: 1;
-    justify-content: center;
-    align-items: center;
     background-color: #fff;
     padding: 16px;
+`;
+
+const TotalCard = styled(View)`
+    padding: 16px;
+    background-color: #6200ee;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    align-items: center;
 `;
 
 const TotalText = styled(Text)`
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: 16px;
+    color: #fff;
 `;
 
-const ExpenseItem = styled(Text)`
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 4px;
+const ExpenseItem = styled(View)`
+  padding: 12px;
+  background-color: #f3f3f3;
+  border-radius: 8px;
+  margin-bottom: 8px;
+`;
+
+const ExpenseText = styled(Text)`
+  font-size: 16px;
+  color: #333;
 `;
 
 export default function StatsScreen() {
@@ -34,13 +46,20 @@ export default function StatsScreen() {
 
   return (
     <Container>
-      <TotalText>Total: ${total.toFixed(2)}</TotalText>
+      <TotalCard>
+        <TotalText>Total: ${total.toFixed(2)}</TotalText>
+      </TotalCard>
 
-      {expenses.map((e, idx) => (
-        <ExpenseItem key={idx}>
-          {e.title}: ${e.amount.toFixed(2)}
-        </ExpenseItem>
-      ))}
+      <FlatList
+        data={expenses}
+        keyExtractor={(_, idx) => idx.toString()}
+        renderItem={({ item }) => (
+          <ExpenseItem>
+            <ExpenseText>{item.title}: ${item.amount.toFixed(2)}</ExpenseText>
+          </ExpenseItem>
+        )}
+        ListEmptyComponent={<ExpenseText>No expenses yet</ExpenseText>}
+      />
     </Container>
   );
 }

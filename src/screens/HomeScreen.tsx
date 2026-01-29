@@ -1,4 +1,4 @@
-import { View, Pressable, Text } from 'react-native';
+import { ScrollView, View, Text, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useStore } from '@store/store';
@@ -6,8 +6,42 @@ import Counter from '@components/Counter';
 import { useEffect } from 'react';
 import { getItem } from '@utils/storage';
 import type { RootStackParamList } from '@navigation/AppNavigator';
+import styled from 'styled-components/native';
 
+// Navigation prop type
 type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
+
+// Props type for styled NavButton
+type NavButtonProps = {
+  bgColor: string;
+};
+
+// Styled components
+const Container = styled(ScrollView)`
+    flex: 1;
+    background-color: #fff;
+    padding: 24px;
+`;
+
+const Section = styled(View)`
+    margin-bottom: 24px;
+    align-items: center;
+`;
+
+const NavButton = styled(Pressable)<NavButtonProps>`
+    width: 100%;
+    padding: 14px;
+    background-color: ${(props :NavButtonProps) => props.bgColor};
+    border-radius: 8px;
+    margin-bottom: 16px;
+    align-items: center;
+`;
+
+const NavText = styled(Text)`
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+`;
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
@@ -15,6 +49,7 @@ export default function HomeScreen() {
   const increment = useStore((state) => state.increment);
   const decrement = useStore((state) => state.decrement);
 
+  // Load count from storage on mount
   useEffect(() => {
     const loadCount = async () => {
       const value = await getItem('count');
@@ -27,33 +62,30 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', padding: 16 }}>
-      {/* Counter Component */}
-      <Counter count={count} onIncrement={increment} onDecrement={decrement} />
+    <Container contentContainerStyle={{ alignItems: 'center' }}>
+      {/* Counter Section */}
+      <Section>
+        <Counter count={count} onIncrement={increment} onDecrement={decrement} />
+      </Section>
 
-      {/* Navigate to FutureScreen */}
-      <Pressable
-        onPress={() => navigation.navigate('Future')}
-        style={{ padding: 10, backgroundColor: 'gray', borderRadius: 5, marginTop: 20, width: '80%', alignItems: 'center' }}
-      >
-        <Text style={{ color: 'white' }}>Go to Future Screen</Text>
-      </Pressable>
+      {/* Navigation Buttons */}
+      <Section>
+        <NavButton bgColor="#6200ee" onPress={() => navigation.navigate('Future')}>
+          <NavText>Future Screen</NavText>
+        </NavButton>
 
-      {/* Navigate to ExpensesScreen */}
-      <Pressable
-        onPress={() => navigation.navigate('Expenses')}
-        style={{ padding: 10, backgroundColor: 'green', borderRadius: 5, marginTop: 20, width: '80%', alignItems: 'center' }}
-      >
-        <Text style={{ color: 'white' }}>Go to Expenses</Text>
-      </Pressable>
+        <NavButton bgColor="#008000" onPress={() => navigation.navigate('Expenses')}>
+          <NavText>Expenses</NavText>
+        </NavButton>
 
-      {/* Navigate to StatsScreen */}
-      <Pressable
-        onPress={() => navigation.navigate('Stats')}
-        style={{ padding: 10, backgroundColor: 'purple', borderRadius: 5, marginTop: 20, width: '80%', alignItems: 'center' }}
-      >
-        <Text style={{ color: 'white' }}>Go to Stats</Text>
-      </Pressable>
-    </View>
+        <NavButton bgColor="#ff8c00" onPress={() => navigation.navigate('Counter')}>
+          <NavText>Counter Screen</NavText>
+        </NavButton>
+
+        <NavButton bgColor="#4b0082" onPress={() => navigation.navigate('Stats')}>
+          <NavText>Stats</NavText>
+        </NavButton>
+      </Section>
+    </Container>
   );
 }
