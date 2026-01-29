@@ -10,9 +10,8 @@ type State = {
   count: number;
   expenses: Expense[];
   total: number;
-  increment: () => void;
-  decrement: () => void;
   addExpense: (expense: Expense) => void;
+  removeExpense: (index: number) => void;
   loadExpenses: () => void;
 };
 
@@ -21,28 +20,25 @@ export const useStore = create<State>((set, get) => ({
   expenses: [],
   total: 0,
 
-  increment: () => {
-    set((state) => {
-      const newCount = state.count + 1;
-      saveItem('count', newCount.toString());
-      return { count: newCount };
-    });
-  },
 
-  decrement: () => {
-    set((state) => {
-      const newCount = state.count - 1;
-      saveItem('count', newCount.toString());
-      return { count: newCount };
-    });
-  },
 
   addExpense: (expense) => {
     set((state) => {
       const newExpenses = [...state.expenses, expense];
       const newTotal = newExpenses.reduce((acc, e) => acc + e.amount, 0);
 
-      // Сохраняем в AsyncStorage
+      saveItem('expenses', JSON.stringify(newExpenses));
+      saveItem('total', newTotal.toString());
+
+      return { expenses: newExpenses, total: newTotal };
+    });
+  },
+
+  removeExpense: (index: number) => {
+    set((state) => {
+      const newExpenses = state.expenses.filter((_, i) => i !== index);
+      const newTotal = newExpenses.reduce((acc, e) => acc + e.amount, 0);
+
       saveItem('expenses', JSON.stringify(newExpenses));
       saveItem('total', newTotal.toString());
 

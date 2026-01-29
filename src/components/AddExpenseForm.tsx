@@ -9,25 +9,25 @@ const FormContainer = styled(View)`
 `;
 
 const Input = styled(TextInput)`
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin-bottom: 8px;
-  font-size: 16px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 8px;
+    font-size: 16px;
 `;
 
 const AddButton = styled(Pressable)`
-  padding: 12px;
-  background-color: #6200ee;
-  border-radius: 8px;
-  align-items: center;
+    padding: 12px;
+    background-color: #6200ee;
+    border-radius: 8px;
+    align-items: center;
 `;
 
 const ButtonText = styled(Text)`
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
 `;
 
 export default function AddExpenseForm() {
