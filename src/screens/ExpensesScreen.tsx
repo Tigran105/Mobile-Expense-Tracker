@@ -1,6 +1,7 @@
 import { View, FlatList, Text } from 'react-native';
 import styled from 'styled-components/native';
 import { useStore } from '@store/store';
+import AddExpenseForm from '@components/AddExpenseForm';
 
 const Container = styled(View)`
     flex: 1;
@@ -25,6 +26,8 @@ export default function ExpensesScreen() {
 
   return (
     <Container>
+      <AddExpenseForm />
+
       <FlatList
         data={expenses}
         keyExtractor={(_, index) => index.toString()}
