@@ -1,11 +1,14 @@
-import { View, Text, Pressable } from 'react-native';
+import { View } from 'react-native';
 import { useStore } from '@store/store';
-import { saveItem, getItem } from '@utils/storage';
+import Counter from '@components/Counter';
 import { useEffect, useState } from 'react';
+import { saveItem, getItem } from '@utils/storage';
 
 export default function HomeScreen() {
   const count = useStore((state) => state.count);
   const increment = useStore((state) => state.increment);
+  const decrement = useStore((state) => state.decrement);
+
   const [savedCount, setSavedCount] = useState<number | null>(null);
 
   const saveCount = async () => {
@@ -21,19 +24,13 @@ export default function HomeScreen() {
     loadCount();
   }, []);
 
+  useEffect(() => {
+    saveCount();
+  }, [count]);
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
-      <Text style={{ fontSize: 22, fontWeight: 'bold', marginBottom: 10 }}>Count: {count}</Text>
-      <Text style={{ marginBottom: 20 }}>Saved count: {savedCount ?? 'none'}</Text>
-      <Pressable
-        onPress={() => {
-          increment();
-          saveCount();
-        }}
-        style={{ padding: 10, backgroundColor: 'blue', borderRadius: 5 }}
-      >
-        <Text style={{ color: 'white' }}>Increment & Save</Text>
-      </Pressable>
+      <Counter count={count} onIncrement={increment} onDecrement={decrement} />
     </View>
   );
 }
